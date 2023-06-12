@@ -3,4 +3,5 @@ body {
     width: 320px;
     height: 512px;
     font-family: 'Roboto';
+    padding: 8px;
 }
