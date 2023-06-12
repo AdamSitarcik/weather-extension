@@ -22,10 +22,10 @@ export interface OpenWeatherData {
     };
 }
 
-export async function fetchOpenWeatherData(
+export const fetchOpenWeatherData = async (
     city: string,
     units: string
-): Promise<OpenWeatherData> {
+): Promise<OpenWeatherData> => {
     const res = await fetch(
         `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${OPEN_WEATHER_API_KEY}&units=${units}`
     );
@@ -37,4 +37,4 @@ export async function fetchOpenWeatherData(
     const data: OpenWeatherData = await res.json();
 
     return data;
-}
+};

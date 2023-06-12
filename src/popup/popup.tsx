@@ -1,26 +1,37 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import '@fontsource/roboto';
 import './popup.css';
 import WeatherCard from './WeatherCard/WeatherCard';
 import { Box, InputBase, IconButton, Paper } from '@mui/material';
 import { Add as AddIcon } from '@mui/icons-material';
+import { setStoredCities, getStoredCities } from '../utils/storage';
 
 const App: React.FC<{}> = () => {
-    const [cities, setCities] = useState<string[]>(['Toronto', 'Bratislava']);
+    const [cities, setCities] = useState<string[]>([]);
 
     const [cityInput, setCityInput] = useState<string>('');
 
+    useEffect(() => {
+        getStoredCities().then((cities) => setCities(cities));
+    }, []);
+
     const handleCityBtnClick = () => {
         if (cityInput === '') return;
+        const updatedCities = [...cities, cityInput];
 
-        setCities([...cities, cityInput]);
-        setCityInput('');
+        setStoredCities(updatedCities).then(() => {
+            setCities([...cities, cityInput]);
+            setCityInput('');
+        });
     };
 
     const handleCityDelete = (index: number) => {
         cities.splice(index, 1);
-        setCities([...cities]);
+
+        setStoredCities(cities).then(() => {
+            setCities([...cities]);
+        });
     };
 
     return (
@@ -39,6 +50,11 @@ const App: React.FC<{}> = () => {
                     value={cityInput}
                     onChange={(event) => {
                         setCityInput(event.target.value);
+                    }}
+                    onKeyDown={(event) => {
+                        if (event.key === 'Enter') {
+                            handleCityBtnClick();
+                        }
                     }}
                 />
                 <IconButton onClick={handleCityBtnClick}>
