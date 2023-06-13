@@ -5,5 +5,6 @@ chrome.runtime.onInstalled.addListener(() => {
     setStoredOptions({
         homeCity: '',
         tempScale: 'metric',
+        isActive: false,
     });
 });

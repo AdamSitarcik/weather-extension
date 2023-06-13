@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import '@fontsource/roboto';
 import './popup.css';
-import WeatherCard from './WeatherCard/WeatherCard';
+import WeatherCard from '../components/WeatherCard/WeatherCard';
 import { Box, InputBase, IconButton, Paper, Icon } from '@mui/material';
 import { Add as AddIcon } from '@mui/icons-material';
 import {

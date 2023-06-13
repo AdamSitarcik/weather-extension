@@ -8,6 +8,7 @@ export interface LocalStorage {
 export interface LocalStorageOptions {
     homeCity: string;
     tempScale: TempScale;
+    isActive?: boolean;
 }
 
 export type LocalStorageKeys = keyof LocalStorage;

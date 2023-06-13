@@ -4,3 +4,7 @@ body {
     display: flex;
     justify-content: center;
 }
+
+.switch-container {
+    margin-top: 24px;
+}

@@ -13,6 +13,7 @@ import {
     Typography,
     TextField,
     Button,
+    Switch,
 } from '@mui/material';
 
 type FormState = 'ready' | 'saving';
@@ -34,6 +35,12 @@ const App: React.FC<{}> = () => {
         });
     };
 
+    const handleShowOverlayChange = (
+        e: React.ChangeEvent<HTMLInputElement>
+    ) => {
+        setOptions({ ...options, isActive: e.target.checked });
+    };
+
     const isFieldDisabled = formState === 'saving';
 
     useEffect(() => {
@@ -46,7 +53,7 @@ const App: React.FC<{}> = () => {
 
     return (
         <Card sx={{ width: '600px' }}>
-            <CardContent>
+            <CardContent sx={{ display: 'flex', flexDirection: 'column' }}>
                 <Typography variant='h4' sx={{ pb: '50px' }}>
                     Weather extension options
                 </Typography>
@@ -67,12 +74,20 @@ const App: React.FC<{}> = () => {
                     }}
                     disabled={isFieldDisabled}
                 />
+                <div className='switch-container'>
+                    <Typography variant='body1'>Show overlay</Typography>
+                    <Switch
+                        checked={options.isActive}
+                        onChange={handleShowOverlayChange}
+                        disabled={isFieldDisabled}
+                    ></Switch>
+                </div>
                 <Button
                     color='primary'
                     variant='contained'
                     onClick={handleSaveOptions}
                     disabled={isFieldDisabled}
-                    sx={{ mt: '24px', fontWeight: 'bold' }}
+                    sx={{ mt: '24px', fontWeight: 'bold', width: '50px' }}
                 >
                     {formState === 'ready' ? 'Save' : 'Saving'}
                 </Button>
