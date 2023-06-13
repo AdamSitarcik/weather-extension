@@ -92,6 +92,12 @@ const App: React.FC<{}> = () => {
                     {options.tempScale === 'metric' ? '\u2103' : '\u2109'}
                 </IconButton>
             </div>
+            {options.homeCity != '' && (
+                <WeatherCard
+                    city={options.homeCity}
+                    tempScale={options.tempScale}
+                />
+            )}
             {cities.map((city, index) => (
                 <WeatherCard
                     city={city}

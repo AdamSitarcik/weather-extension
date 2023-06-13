@@ -71,13 +71,25 @@ const WeatherCard: React.FC<{
 
     return (
         <WeatherCardContainer onDelete={onDelete}>
-            <Typography variant='h5'>{weatherData.name}</Typography>
-            <Typography variant='body1'>
-                {Math.round(weatherData.main.temp)}
-            </Typography>
-            <Typography variant='body1'>
-                Feels like: {Math.round(weatherData.main.feels_like)}
-            </Typography>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                <Typography variant='h5'>{weatherData.name}</Typography>
+                <Typography variant='h4'>
+                    {Math.round(weatherData.main.temp)}
+                </Typography>
+            </Box>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                <Box>
+                    <Typography variant='body1'>
+                        Max: {Math.round(weatherData.main.temp_max)}
+                    </Typography>
+                    <Typography variant='body1'>
+                        Min: {Math.round(weatherData.main.temp_min)}
+                    </Typography>
+                </Box>
+                <Typography variant='body1'>
+                    Feels like: {Math.round(weatherData.main.feels_like)}
+                </Typography>
+            </Box>
         </WeatherCardContainer>
     );
 };
