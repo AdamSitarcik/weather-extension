@@ -80,7 +80,7 @@ const App: React.FC<{}> = () => {
                         checked={options.isActive}
                         onChange={handleShowOverlayChange}
                         disabled={isFieldDisabled}
-                    ></Switch>
+                    />
                 </div>
                 <Button
                     color='primary'
