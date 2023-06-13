@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { fetchOpenWeatherData, OpenWeatherData } from '../../utils/api';
+import {
+    fetchOpenWeatherData,
+    OpenWeatherData,
+    TempScale,
+} from '../../utils/api';
 import {
     Box,
     Card,
@@ -34,14 +38,15 @@ type WeatherCardState = 'loading' | 'error' | 'ready';
 const WeatherCard: React.FC<{
     city: string;
     onDelete?: () => void;
-}> = ({ city, onDelete }) => {
+    tempScale?: TempScale;
+}> = ({ city, onDelete, tempScale }) => {
     const [weatherData, setWeatherData] = useState<OpenWeatherData | null>(
         null
     );
     const [cardState, setCardState] = useState<WeatherCardState>('loading');
 
     useEffect(() => {
-        fetchOpenWeatherData(city, 'metric')
+        fetchOpenWeatherData(city, tempScale)
             .then((data) => {
                 setWeatherData(data);
                 setCardState('ready');
@@ -50,7 +55,7 @@ const WeatherCard: React.FC<{
                 console.log(err);
                 setCardState('error');
             });
-    }, [city]);
+    }, [city, tempScale]);
 
     if (cardState == 'loading' || cardState == 'error') {
         return (
