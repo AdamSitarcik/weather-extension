@@ -8,17 +8,36 @@ import {
     getStoredOptions,
     setStoredOptions,
 } from '../utils/storage';
+import { Messages } from '../utils/messages';
+import { TempScale } from '../utils/api';
 
 const App: React.FC<{}> = () => {
     const [options, setOptions] = useState<LocalStorageOptions | null>(null);
     const [isActive, setIsActive] = useState<boolean>(false);
+    const [tempScale, setTempScale] = useState<TempScale>('metric');
 
     useEffect(() => {
         getStoredOptions().then((options) => {
             setOptions(options);
             setIsActive(options.isActive);
+            setTempScale(options.tempScale);
         });
     }, []);
+
+    useEffect(() => {
+        chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
+            if (msg === Messages.TOGGLE_OVERLAY) {
+                setIsActive(!isActive);
+            } else if (msg === Messages.TOGGLE_SCALE) {
+                getStoredOptions().then((options) => {
+                    setOptions(options);
+                    setIsActive(options.isActive);
+                    setTempScale(options.tempScale);
+                });
+            }
+            sendResponse();
+        });
+    }, [isActive]);
 
     if (!options) return;
 
@@ -36,7 +55,7 @@ const App: React.FC<{}> = () => {
                 <Card className='overlay-card'>
                     <WeatherCard
                         city={options.homeCity}
-                        tempScale={options.tempScale}
+                        tempScale={tempScale}
                         onDelete={toggleIsActive}
                     />
                 </Card>

@@ -4,7 +4,7 @@ import '@fontsource/roboto';
 import './popup.css';
 import WeatherCard from '../components/WeatherCard/WeatherCard';
 import { Box, InputBase, IconButton, Paper, Icon } from '@mui/material';
-import { Add as AddIcon } from '@mui/icons-material';
+import { Add as AddIcon, PictureInPicture } from '@mui/icons-material';
 import {
     setStoredCities,
     getStoredCities,
@@ -12,6 +12,7 @@ import {
     getStoredOptions,
     LocalStorageOptions,
 } from '../utils/storage';
+import { Messages } from '../utils/messages';
 
 const App: React.FC<{}> = () => {
     const [cities, setCities] = useState<string[]>([]);
@@ -50,6 +51,21 @@ const App: React.FC<{}> = () => {
         };
         setStoredOptions(optionToggle).then(() => {
             setOptions(optionToggle);
+
+            chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+                if (tabs.length > 0) {
+                    chrome.tabs.sendMessage(tabs[0].id, Messages.TOGGLE_SCALE);
+                }
+            });
+        });
+        
+    };
+
+    const toggleOverlay = () => {
+        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+            if (tabs.length > 0) {
+                chrome.tabs.sendMessage(tabs[0].id, Messages.TOGGLE_OVERLAY);
+            }
         });
     };
 
@@ -90,6 +106,12 @@ const App: React.FC<{}> = () => {
                     sx={{ width: '40px', height: '40px' }}
                 >
                     {options.tempScale === 'metric' ? '\u2103' : '\u2109'}
+                </IconButton>
+                <IconButton
+                    onClick={toggleOverlay}
+                    sx={{ width: '40px', height: '40px' }}
+                >
+                    <PictureInPicture />
                 </IconButton>
             </div>
             {options.homeCity != '' && (

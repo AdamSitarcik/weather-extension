@@ -12,6 +12,7 @@ import {
     CardActions,
     Button,
 } from '@mui/material';
+import './WeatherCard.css';
 
 const WeatherCardContainer: React.FC<{
     children: React.ReactNode;
@@ -23,9 +24,11 @@ const WeatherCardContainer: React.FC<{
                 <CardContent>{children}</CardContent>
                 <CardActions>
                     {onDelete && (
-                        <Button color='error' onClick={onDelete}>
-                            Delete
-                        </Button>
+                        <Typography className="weather-card-body1">
+                            <Button color='error' onClick={onDelete}>
+                                Delete
+                            </Button>
+                        </Typography>
                     )}
                 </CardActions>
             </Card>
@@ -60,7 +63,8 @@ const WeatherCard: React.FC<{
     if (cardState == 'loading' || cardState == 'error') {
         return (
             <WeatherCardContainer onDelete={onDelete}>
-                <Typography variant='body1'>
+                <Typography className='weather-card-title'>{city}</Typography>
+                <Typography className='weather-card-body1'>
                     {cardState == 'loading'
                         ? 'Loading...'
                         : `Error: could not retrieve data for ${city}`}
@@ -72,21 +76,23 @@ const WeatherCard: React.FC<{
     return (
         <WeatherCardContainer onDelete={onDelete}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                <Typography variant='h5'>{weatherData.name}</Typography>
-                <Typography variant='h4'>
+                <Typography className='weather-card-title'>
+                    {weatherData.name}
+                </Typography>
+                <Typography className='weather-card-temp'>
                     {Math.round(weatherData.main.temp)}
                 </Typography>
             </Box>
             <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                 <Box>
-                    <Typography variant='body1'>
+                    <Typography className='weather-card-body1'>
                         Max: {Math.round(weatherData.main.temp_max)}
                     </Typography>
-                    <Typography variant='body1'>
+                    <Typography className='weather-card-body1'>
                         Min: {Math.round(weatherData.main.temp_min)}
                     </Typography>
                 </Box>
-                <Typography variant='body1'>
+                <Typography className='weather-card-body1'>
                     Feels like: {Math.round(weatherData.main.feels_like)}
                 </Typography>
             </Box>
