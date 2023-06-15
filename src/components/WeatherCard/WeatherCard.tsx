@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {
     fetchOpenWeatherData,
+    getWeatherIconSrc,
     OpenWeatherData,
     TempScale,
 } from '../../utils/api';
@@ -11,6 +12,7 @@ import {
     Typography,
     CardActions,
     Button,
+    Icon,
 } from '@mui/material';
 import './WeatherCard.css';
 
@@ -24,7 +26,7 @@ const WeatherCardContainer: React.FC<{
                 <CardContent>{children}</CardContent>
                 <CardActions>
                     {onDelete && (
-                        <Typography className="weather-card-body1">
+                        <Typography className='weather-card-body1'>
                             <Button color='error' onClick={onDelete}>
                                 Delete
                             </Button>
@@ -75,11 +77,31 @@ const WeatherCard: React.FC<{
 
     return (
         <WeatherCardContainer onDelete={onDelete}>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+            <Box
+                sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                }}
+            >
                 <Typography className='weather-card-title'>
                     {weatherData.name}
                 </Typography>
-                <Typography className='weather-card-temp'>
+                <Typography
+                    className='weather-card-temp'
+                    sx={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        gap: '4px',
+                    }}
+                >
+                    {weatherData.weather.length > 0 && (
+                        <img
+                            src={getWeatherIconSrc(weatherData.weather[0].icon)}
+                            className='weather-icon'
+                        />
+                    )}
                     {Math.round(weatherData.main.temp)}
                 </Typography>
             </Box>
@@ -92,9 +114,15 @@ const WeatherCard: React.FC<{
                         Min: {Math.round(weatherData.main.temp_min)}
                     </Typography>
                 </Box>
-                <Typography className='weather-card-body1'>
-                    Feels like: {Math.round(weatherData.main.feels_like)}
-                </Typography>
+                <Box >
+                    <Typography className='weather-card-body1' sx={{textAlign:'end'}}>
+                        Feels like: {Math.round(weatherData.main.feels_like)}
+                    </Typography>
+                    <Typography className='weather-short-description' sx={{textAlign:'end'}}>
+                        {weatherData.weather.length > 0 &&
+                            weatherData.weather[0].main}
+                    </Typography>
+                </Box>
             </Box>
         </WeatherCardContainer>
     );

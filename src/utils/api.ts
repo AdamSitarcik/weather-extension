@@ -40,3 +40,7 @@ export const fetchOpenWeatherData = async (
 };
 
 export type TempScale = 'metric' | 'imperial';
+
+export const getWeatherIconSrc = (iconCode:string) => {
+    return `https://openweathermap.org/img/wn/${iconCode}@2x.png`
+}

@@ -9,3 +9,12 @@
 .weather-card-body1 {
     font-size: 16px !important;
 }
+
+.weather-short-description {
+    font-size: 14px !important;
+}
+
+.weather-icon {
+    height: 36px;
+    width: 36px;
+}
