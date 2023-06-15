@@ -21,13 +21,6 @@ const App: React.FC<{}> = () => {
 
     const [options, setOptions] = useState<LocalStorageOptions | null>(null);
 
-    chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
-        if (msg === Messages.UPDATE_CITIES) {
-            getStoredCities().then((cities) => setCities(cities));
-        }
-        sendResponse();
-    });
-
     useEffect(() => {
         getStoredCities().then((cities) => setCities(cities));
         getStoredOptions().then((options) => setOptions(options));

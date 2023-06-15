@@ -25,8 +25,4 @@ chrome.contextMenus.onClicked.addListener((data) => {
         console.log(cities);
         setStoredCities([...cities, data.selectionText]);
     });
-
-    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-        chrome.tabs.sendMessage(tabs[0].id, Messages.UPDATE_CITIES);
-    });
 });
