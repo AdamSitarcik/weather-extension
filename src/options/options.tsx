@@ -15,6 +15,7 @@ import {
     Button,
     Switch,
 } from '@mui/material';
+import { updateBadge } from '../utils/api';
 
 type FormState = 'ready' | 'saving';
 
@@ -33,6 +34,7 @@ const App: React.FC<{}> = () => {
                 setFormState('ready');
             }, 500);
         });
+        updateBadge(getStoredOptions);
     };
 
     const handleShowOverlayChange = (

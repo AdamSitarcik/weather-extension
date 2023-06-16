@@ -1,4 +1,5 @@
-import { fetchOpenWeatherData } from '../utils/api';
+import { useEffect } from 'react';
+import { updateBadge } from '../utils/api';
 import {
     getStoredCities,
     getStoredOptions,
@@ -21,6 +22,7 @@ chrome.runtime.onInstalled.addListener(() => {
     });
 
     chrome.alarms.create({ periodInMinutes: 60 });
+    updateBadge(getStoredOptions);
 });
 
 chrome.contextMenus.onClicked.addListener((data) => {
@@ -31,17 +33,5 @@ chrome.contextMenus.onClicked.addListener((data) => {
 });
 
 chrome.alarms.onAlarm.addListener(() => {
-    getStoredOptions().then((options) => {
-        if (options.homeCity === '') return;
-
-        fetchOpenWeatherData(options.homeCity, options.tempScale).then(
-            (data) => {
-                chrome.action.setBadgeText({
-                    text:
-                        String(Math.floor(data.main.temp)) +
-                        (options.tempScale === 'metric' ? '\u2103' : '\u2109'),
-                });
-            }
-        );
-    });
+    updateBadge(getStoredOptions);
 });

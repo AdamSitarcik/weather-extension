@@ -44,3 +44,19 @@ export type TempScale = 'metric' | 'imperial';
 export const getWeatherIconSrc = (iconCode:string) => {
     return `https://openweathermap.org/img/wn/${iconCode}@2x.png`
 }
+
+export const updateBadge = (getStoredOptions) => {
+    getStoredOptions().then((options) => {
+        if (options.homeCity === '') return;
+
+        fetchOpenWeatherData(options.homeCity, options.tempScale).then(
+            (data) => {
+                chrome.action.setBadgeText({
+                    text:
+                        String(Math.floor(data.main.temp)) +
+                        (options.tempScale === 'metric' ? '\u2103' : '\u2109'),
+                });
+            }
+        );
+    });
+};
