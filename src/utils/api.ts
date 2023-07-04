@@ -1,4 +1,4 @@
-const OPEN_WEATHER_API_KEY: string = '6151383649a9505cb6f4e58e8f60fa01';
+const OPEN_WEATHER_API_KEY: string = process.env.OPEN_WEATHER_API_KEY;
 
 export interface OpenWeatherData {
     name: string;
@@ -41,9 +41,9 @@ export const fetchOpenWeatherData = async (
 
 export type TempScale = 'metric' | 'imperial';
 
-export const getWeatherIconSrc = (iconCode:string) => {
-    return `https://openweathermap.org/img/wn/${iconCode}@2x.png`
-}
+export const getWeatherIconSrc = (iconCode: string) => {
+    return `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
+};
 
 export const updateBadge = (getStoredOptions) => {
     getStoredOptions().then((options) => {

@@ -2,6 +2,9 @@ const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
 const HtmlPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const webpack = require('webpack');
+const dotenv = require('dotenv');
+dotenv.config();
 
 module.exports = {
     entry: {
@@ -36,9 +39,17 @@ module.exports = {
             ],
         }),
         ...getHtmlPlugins(['popup', 'options']),
+        new webpack.DefinePlugin({
+            'process.env': JSON.stringify(process.env),
+        }),
     ],
     resolve: {
         extensions: ['.tsx', '.ts', '.js'],
+        fallback: {
+            os: false,
+            path: false,
+            crypto: false,
+        },
     },
     output: {
         filename: '[name].js',
