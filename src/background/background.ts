@@ -21,7 +21,7 @@ chrome.runtime.onInstalled.addListener(() => {
         contexts: ['selection'],
     });
 
-    chrome.alarms.create({ periodInMinutes: 60 });
+    chrome.alarms.create({ periodInMinutes: 15 });
     updateBadge(getStoredOptions);
 });
 
